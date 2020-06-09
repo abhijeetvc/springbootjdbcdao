@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
+@RequestMapping(value="/employee")
 public class EmployeeController {
 
     @Autowired
@@ -33,6 +35,11 @@ public class EmployeeController {
     public String updateEmp(@PathVariable Integer id,
                             @PathVariable String name){
         return employeeDao.updateEmployee(id,name);
+    }
+
+    @GetMapping(value="/combinedata")
+    public List<Map<String,Object>> getJoinData(){
+        return employeeDao.getCombinedData();
     }
 
 //    @PutMapping(value="/update")

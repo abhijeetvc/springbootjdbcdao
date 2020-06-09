@@ -3,6 +3,7 @@ package com.springjdbc.springbootjdbcdao.repository;
 import com.springjdbc.springbootjdbcdao.model.Employee;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EmployeeRepository {
 
@@ -15,4 +16,6 @@ public interface EmployeeRepository {
     String updateEmployee(Integer id,String name);
 
     //String updateEmployee(Employee emp);
+
+    List<Map<String,Object>> getCombinedData();
 }

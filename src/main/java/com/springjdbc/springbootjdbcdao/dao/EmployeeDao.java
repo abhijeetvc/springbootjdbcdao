@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class EmployeeDao implements EmployeeRepository {
@@ -17,15 +18,14 @@ public class EmployeeDao implements EmployeeRepository {
 
     @Override
     public String insertData(Employee employee) {
-        String sql="insert into employee values(?,?,?)";
+        String sql="insert into employee values(?,?,?,?)";
         jdbcTemplate.update(sql,new Object[]{employee.getId(),
-        employee.getName(),employee.getCity()});
+        employee.getName(),employee.getCity(),employee.getDepartment().getId()});
         return "Data inserted successfully";
     }
 
     @Override
     public List<Employee> getAllEmployees() {
-
         String sql="select * from employee";
         List<Employee> list=jdbcTemplate.query(sql,new BeanPropertyRowMapper(Employee.class));
         return list;
@@ -47,6 +47,14 @@ public class EmployeeDao implements EmployeeRepository {
         return "Employee updated successfully";
     }
 
+    @Override
+    public List<Map<String, Object>> getCombinedData() {
+
+        String sql="select a.id,a.name,a.city,b.name as deptName from employee a, department b where a.dept_id=b.id";
+        List<Map<String,Object>> list=jdbcTemplate.queryForList(sql);
+        return list;
+    }
+
 //    @Override
 //    public String updateEmployee(Employee emp) {
 //        String sql="update employee set name=?, city=? where id=?";
@@ -55,4 +63,9 @@ public class EmployeeDao implements EmployeeRepository {
 //
 //    }
 
+// If the department is not existing, then user will enter the new department name and the insert the
+    // new employee against that department.
+
+// Uploading of file along with employee data. STore file to some directory and add the file path
+// to database against the employee
 }
